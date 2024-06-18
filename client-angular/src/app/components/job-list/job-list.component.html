@@ -1,0 +1,12 @@
+<ul class="box">
+    @for (job of jobs; track job.id) {
+        <li class="media">
+            <div class="media-left has-text-grey">
+              {{ job.date | date: 'MMMM dd, yyyy'}}
+            </div>
+            <div class="media-content">
+                <a [routerLink]="['/jobs', job.id]">{{getTitle(job)}}</a>
+            </div>
+        </li>    
+    }
+</ul>

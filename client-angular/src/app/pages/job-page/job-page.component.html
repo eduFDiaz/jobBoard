@@ -1,0 +1,38 @@
+@if (error) {
+    <div class="notification is-danger">
+      <button class="delete" (click)="resetError()"></button>
+        {{ error }}
+    </div>
+}
+
+@if (loading) {
+    <div>Loading...</div>;
+} @else {
+    <div class="section">
+        <h1 class="title is-3">
+          {{job.title}}
+        </h1>
+        <h2 class="subtitle is-4 pt-3">
+          <a [routerLink]="['/companies', job.company.id]">
+            {{job.company.name}}
+          </a>
+        </h2>
+        <div class="box">
+          <div class="block has-text-grey">
+            Posted: {{job.date | date: 'MMMM dd, yyyy'}}
+          </div>
+          <div class="content" [innerHTML]="job.description">
+          </div>
+        </div>
+        @if (authService.loggedIn() && authService.user().companyId === job.company.id) {
+          <div class="buttons">
+            <button class="button is-danger" (click)="deleteJob()">
+              Delete job
+            </button>
+            <button class="button is-primary" [routerLink]="['/jobs', job.id, 'edit']">
+              Edit job
+            </button>
+          </div>
+        }
+      </div>
+}

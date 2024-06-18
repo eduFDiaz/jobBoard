@@ -1,0 +1,26 @@
+<nav class="navbar">
+    <div class="navbar-start">
+        <a routerLink="" class="navbar-item">Home</a>
+    </div>
+    @if (authService.loggedIn()) {
+    <div class="navbar-end">
+        <span class="navbar-item has-text-grey">
+            {{authService.user().email}}
+        </span>
+        <a routerLink="jobs/new" class="navbar-item">
+            Post Job
+        </a>
+        <a class="navbar-item" (click)="handleLogout()">
+            Logout
+        </a>
+    </div>
+    } @else {
+    <div class="navbar-end">
+        <a routerLink="login" class="navbar-item">
+            Login
+        </a>
+    </div>
+    }
+    <!-- <button (click)="startTour()">Start tour</button> -->
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,35 @@
+<div class="section">
+    <h1 class="title">
+        {{ editMode ? 'Edit job post' : 'New job post' }}
+    </h1>
+    <div class="box">
+        <form [formGroup]="createJobForm" (ngSubmit)="createJob($event)">
+            <div class="field">
+                <label class="label">
+                    Title
+                </label>
+                <div class="control">
+                    <input class="input" type="text" formControlName="title" required />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">
+                    Description
+                </label>
+                <quill-editor
+                placeholder="Enter job description"
+                formControlName="description"
+                [modules]="quillConfig"
+                [required]="true"
+                ></quill-editor>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" type="submit" [disabled]="!createJobForm.valid || loading">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

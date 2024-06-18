@@ -1,0 +1,33 @@
+@if(!authService.loggedIn()){
+    <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-4">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit($event)" class="box">
+              <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                  <input class="input" type="email" placeholder="e.g. Alex" id="email" name="email" formControlName="email" required>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                  <input class="input" type="password" placeholder="********" id="password" name="password" formControlName="password" required>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <button class="button is-success is-fullwidth blue" type="submit" [disabled]="!loginForm.valid">Login</button>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label" style="text-align: center;">Or sign in with Google</label>
+                <div class="control">
+                  <div class="is-fullwidth" id="google-signin"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+}
