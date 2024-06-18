@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "prestart": "rm -rf dist/*",
-    "build": "tsc --w",
+    "prebuild": "rm -rf dist/*",
+    "watch": "tsc -w",
+    "build": "tsc",
     "start": "tsc && ts-node ./dist/server.js"
   },
   "dependencies": {
