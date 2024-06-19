@@ -1,0 +1,23 @@
+@if (error) {
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+}
+
+@if (loading) {
+<div>Loading...</div>;
+} @else {
+<div class="section">
+    <h1 class="title">
+        Job Board
+    </h1>
+    <app-job-list [jobs]="jobs" [totalCount]="totalCount"/>
+
+    <!-- pagination -->
+    <div class="pagination is-centered" *ngIf="totalCount > 0" style="height: 200px; width: 250px;">
+        @for (page of pageRange; track $index) {
+            <input [ngClass]="{'button active': currentPage === page, 'button inactive' : currentPage !== page }" type="button" value="{{page}}" (click)="loadJobs(page)">   
+        }
+    </div>
+</div>
+}

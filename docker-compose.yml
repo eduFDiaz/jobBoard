@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  job-board-frontend:
+      build: ./client-angular
+      image: job-board-frontend:latest
+      container_name: job-board-frontend
+      ports:
+        - "4200:4200"
+      depends_on:
+        - job-board-backend
+      networks:
+        - job-board-network
+  job-board-backend:
+      build: ./server
+      image: job-board-backend:latest
+      container_name: job-board-backend
+      ports:
+        - "9000:9000"
+      networks:
+        - job-board-network
+networks:
+  job-board-network:
+    driver: bridge

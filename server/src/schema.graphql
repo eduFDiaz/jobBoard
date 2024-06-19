@@ -1,0 +1,39 @@
+type Query {
+    job(id: ID!): Job
+    jobs(limit: Int, offset: Int): PaginatedJobs
+    company(id: ID!): Company
+}
+
+type Mutation {
+    createJob(input: createJobInput!): Job
+    updateJob(id: ID!, input: createJobInput!): Job
+    deleteJob(id: ID!): Job
+}
+
+input createJobInput {
+    title: String!, description: String!
+}
+
+"""
+A job posting in the job board
+"""
+type Job {
+    id: ID!
+    title: String!
+    description: String!
+    """The date when the job was published, ISO 8601 Date, ex: 2019-07-20T00:00:00.000Z"""
+    date: String!
+    company: Company!
+}
+
+type PaginatedJobs {
+    jobs: [Job!]
+    totalCount: Int!
+}
+
+type Company {
+    id: ID!
+    name: String!
+    description: String!
+    jobs: [Job!]
+}
