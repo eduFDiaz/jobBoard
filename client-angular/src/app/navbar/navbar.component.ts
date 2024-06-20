@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService, User } from '../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { TourService } from '../services/tour-service.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { TourService } from '../services/tour-service.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public authService:AuthService, public tourService: TourService) {}
+  constructor(public authService:AuthService, public tourService: TourService, private router: Router) {}
   ngOnInit(): void {
     this.authService.getUser();
   };
@@ -21,6 +21,7 @@ export class NavbarComponent implements OnInit {
   handleLogout() {
     console.log('[navbar] Logging out');
     this.authService.logout();
+    this.router.navigate(['/']);
   }
 
   startTour() {

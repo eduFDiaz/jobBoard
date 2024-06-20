@@ -64,7 +64,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
     console.log('Google login response', resp);
     const loggedInSuccess = await this.authService.loginWithGoogle(resp.credential);
     if (loggedInSuccess) {
-      console.log('Login successful', loggedInSuccess);
+      console.log('Google Login successful', loggedInSuccess);
       this.router.navigate(['/']);
     }
   }
