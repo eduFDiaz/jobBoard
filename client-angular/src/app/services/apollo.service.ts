@@ -3,8 +3,9 @@ import { ApolloLink, createHttpLink, concat } from '@apollo/client/core';
 import { Apollo, gql } from 'apollo-angular';
 import { AuthService } from './auth.service';
 import { HttpLink } from 'apollo-angular/http';
+import { environment } from '../../environments/environment';
 
-const uri = 'http://localhost:9001/graphql'; // <-- add the URL of the GraphQL server here
+const uri = environment.GRAPHQL_URL;
 
 const jobDetailFragment = gql`
     fragment jobDetail on Job {

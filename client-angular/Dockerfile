@@ -9,7 +9,7 @@ ADD . /client-angular
 
 RUN npm install --legacy-peer-deps
 
-RUN npm run build
+RUN npm run build --configuration=production
 
 # # Stage 2: Serve app with nginx server
 FROM nginx:1.19.0-alpine as prod-stage
