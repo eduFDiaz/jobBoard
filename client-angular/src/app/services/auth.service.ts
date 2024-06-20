@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import jwtDecode from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
-const API_URL = 'http://localhost:9000';
+const API_URL = environment.API_URL;
 const ACCESS_TOKEN_KEY = 'accessToken';
 const EMPTY_USER = { id: '', email: '', companyId: '' };
 

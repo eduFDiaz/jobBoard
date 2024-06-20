@@ -8,7 +8,7 @@ import { resolvers } from './src/server/resolvers.js';
 import { generateJobs } from './src/scripts/insert-50-jobs-chatgpt.js';
 import { createDb } from './src/scripts/create-db.js';
 
-const PORT = 9000;
+const PORT = 9001;
 
 const app = express();
 app.use(cors(), express.json(), authMiddleware);

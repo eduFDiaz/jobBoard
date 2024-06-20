@@ -14,8 +14,9 @@ services:
       build: ./server
       image: job-board-backend:latest
       container_name: job-board-backend
+      restart: always
       ports:
-        - "9000:9000"
+        - "9001:9001"
       networks:
         - job-board-network
 networks:

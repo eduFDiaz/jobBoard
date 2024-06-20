@@ -10,6 +10,6 @@ RUN npm install -g ts-node
 RUN npm install
 RUN npm run build
 
-EXPOSE 9000
+EXPOSE 9001
 
 CMD ["ts-node", "./dist/server.js"]
