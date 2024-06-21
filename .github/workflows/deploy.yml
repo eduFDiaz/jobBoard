@@ -1,0 +1,25 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches:
+      - feature-CICD
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Remote Server
+      run: |
+        ssh -o StrictHostKeyChecking=no eduardo@144.126.154.183 'cd /home/eduardo/jobBoard && docker-compose up --build -d'
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
