@@ -14,6 +14,8 @@ export async function createDb(req, res) {
       table.uuid("id").notNullable().primary();
       table.text("name").notNullable();
       table.text("description");
+      table.foreign("id").references("companyId").inTable("job").onDelete("CASCADE");
+      table.foreign("id").references("companyId").inTable("user").onDelete("CASCADE");
     });
 
     await schema.createTable("job", (table) => {
