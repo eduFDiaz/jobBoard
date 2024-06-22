@@ -13,16 +13,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # - name: Setup SSH
-    #   uses: webfactory/ssh-agent@v0.9.0
-    #   with:
-    #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Debug SSH
+    - name: Install deps
       run: |
         echo "Testing SSH connection"
         echo ${{ secrets.HOSTNAME_PSWD }}
         sudo apt-get install -y sshpass
+
+    - name: Stop containers
+      run: |
+        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no eduardo@144.126.154.183 'cd /home/eduardo/jobBoard && docker-compose down'    
 
     - name: Deploy to Remote Server
       run: |
