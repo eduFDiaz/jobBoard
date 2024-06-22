@@ -25,4 +25,8 @@ jobs:
 
     - name: Deploy to Remote Server
       run: |
-        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_LOGIN_STRING }} 'cd /home/eduardo/jobBoard && docker-compose up --build -d'
+        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_LOGIN_STRING }} <<'ENDSSH'
+        cd /home/eduardo/jobBoard
+        git pull
+        docker-compose up --build -d
+        ENDSSH
