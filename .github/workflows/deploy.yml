@@ -18,8 +18,11 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Debug SSH
+      run: |
+        echo "Testing SSH connection"
+        ssh -o StrictHostKeyChecking=no eduardo@144.126.154.183 'echo "SSH connection successful"; ls -la ~/.ssh'
+
     - name: Deploy to Remote Server
       run: |
         ssh -o StrictHostKeyChecking=no eduardo@144.126.154.183 'cd /home/eduardo/jobBoard && docker-compose up --build -d'
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
