@@ -3,7 +3,7 @@ name: Deploy to Remote Server
 on:
   push:
     branches:
-      - feature-CICD
+      - main
 
 jobs:
   deploy:
@@ -20,9 +20,9 @@ jobs:
         sudo apt-get install -y sshpass
 
     - name: Stop containers
-      run: |
-        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no eduardo@144.126.154.183 'cd /home/eduardo/jobBoard && docker-compose down'    
+      run: |    
+        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ SSH_LOGIN_STRING }} 'cd /home/eduardo/jobBoard && docker-compose down'    
 
     - name: Deploy to Remote Server
       run: |
-        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no eduardo@144.126.154.183 'cd /home/eduardo/jobBoard && docker-compose up --build -d'
+        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ SSH_LOGIN_STRING }} 'cd /home/eduardo/jobBoard && docker-compose up --build -d'
