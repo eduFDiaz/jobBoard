@@ -1,0 +1,28 @@
+name: Deploy to Remote Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install deps
+      run: |
+        echo "Testing SSH connection"
+        echo ${{ secrets.HOSTNAME_PSWD }}
+        sudo apt-get install -y sshpass
+
+    - name: Stop containers
+      run: |    
+        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ SSH_LOGIN_STRING }} 'cd /home/eduardo/jobBoard && docker-compose down'    
+
+    - name: Deploy to Remote Server
+      run: |
+        sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ SSH_LOGIN_STRING }} 'cd /home/eduardo/jobBoard && docker-compose up --build -d'
