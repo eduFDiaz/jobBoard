@@ -21,3 +21,7 @@ function generateUniqueId(source: ConnectionSource):string{
 export const generateId = () => {
     return generateUniqueId(source);
 };
+
+export const generateRandomPassword = () => {
+    return customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 12)();
+};
