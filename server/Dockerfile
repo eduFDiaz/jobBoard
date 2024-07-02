@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 9001
 
-CMD ["ts-node", "./dist/server.js"]
+CMD ["ts-node", "src/index.ts"]

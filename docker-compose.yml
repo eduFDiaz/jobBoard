@@ -19,6 +19,17 @@ services:
         - "9001:9001"
       networks:
         - job-board-network
+      environment:
+        - NODE_ENV=production
+        - JOB_BOARD_SECRET=${JOB_BOARD_SECRET}
+        - OLLAMA_NUM_PARALLEL=4
+        - OLLAMA_MAX_LOADED_MODELS=4 
+        - LANGCHAIN_TRACING_V2="true"
+        - LANGCHAIN_CALLBACKS_BACKGROUND="true"
+        - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
+        - OPENAI_API_KEY=${OPENAI_API_KEY}
+        - EMAIL_USER="fernandez9000@gmail.com"
+        - EMAIL_PASS=${EMAIL_PASS}
 networks:
   job-board-network:
     driver: bridge
