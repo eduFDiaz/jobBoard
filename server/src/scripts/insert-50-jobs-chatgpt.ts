@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Job, generateJobPost } from '../server/langchainGen.js'; 
+import { Job, generateJobPost } from '../server/langchainGen'; 
 
-import { connection } from '../db/connection.js';
+import { connection } from '../db/connection';
 
-export async function generateJobs(req, res) {
+import { Request, Response } from 'express';
+
+export async function generateJobs(req: Request, res: Response) {
   try {
     const INTERVAL = 4 * 60 * 60 * 1000; // 4h
     const START_TIME = new Date().getTime();
@@ -12,7 +14,7 @@ export async function generateJobs(req, res) {
   
     const jobs = [];
     for (let n = 1; n <= 50; n++) {
-      let fakeJob: Job = { job_title: '', job_description: ''};
+      let fakeJob: Job = { job_title: '', job_description: '' };
       
       try {
         fakeJob = await generateJobPost();

@@ -1,8 +1,9 @@
 import { expressjwt } from 'express-jwt';
 import jwt from 'jsonwebtoken';
-import { getUserByEmail, createUser } from '../db/users.js';
+import { getUserByEmail, createUser } from '../db/users';
 
-const secret = Buffer.from('Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt', 'base64');
+const secretEnv = process.env.JOB_BOARD_SECRET || 'testsecret';
+const secret = Buffer.from(secretEnv, 'base64');
 
 export const authMiddleware = expressjwt({
   algorithms: ['HS256'],
@@ -10,26 +11,28 @@ export const authMiddleware = expressjwt({
   secret,
 });
 
-export async function handleLogin(req, res) {
+import { Request, Response } from 'express';
+
+export async function handleLogin(req: Request, res: Response) {
   const { email, password } = req.body;
   const user = await getUserByEmail(email);
   if (!user || user.password !== password) {
     res.sendStatus(401);
   } else {
-    const claims = { sub: user.id, email: user.email, companyId: user.companyId};
+    const claims = { sub: user.id, email: user.email, companyId: user.companyId };
     const token = jwt.sign(claims, secret);
     res.json({ token });  
   }
 }
 
-export async function handleGoogleLogin(req, res) {
+export async function handleGoogleLogin(req: Request, res: Response) {
   const { email } = req.body;
   let user = await getUserByEmail(email);
   if (!user) {
     // if the user does not exist, create a new user
     user = await createUser(email);
   }
-  const claims = { sub: user.id, email: user.email, companyId: user.companyId};
+  const claims = { sub: user.id, email: user.email, companyId: user.companyId };
   const token = jwt.sign(claims, secret);
   res.json({ token });  
 }
