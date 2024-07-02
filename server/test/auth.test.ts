@@ -17,7 +17,7 @@ describe('handleLogin', () => {
 
     await handleLogin(req, res);
 
-    expect(res.sendStatus).toHaveBeenCalledWith(401);
+    expect(res.sendStatus).toHaveBeenCalledWith(402);
   });
 
   it('should respond with 401 status if the password is not correct', async () => {
