@@ -5,8 +5,6 @@ import { getUserByEmail, createUser } from '../db/users';
 const secretEnv = process.env.JOB_BOARD_SECRET || 'testsecret';
 const secret = Buffer.from(secretEnv, 'base64');
 
-console.log('secretEnv', secretEnv);
-
 export const authMiddleware = expressjwt({
   algorithms: ['HS256'],
   credentialsRequired: false,
