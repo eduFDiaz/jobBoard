@@ -40,6 +40,7 @@ jobs:
     - name: Deploy to Remote Server
       run: |
         sshpass -p '${{ secrets.HOSTNAME_PSWD }}' ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_LOGIN_STRING }} <<'ENDSSH'
+        source ~/.bashrc
         cd /home/eduardo/jobBoard
         git checkout ${{ github.ref_name }}
         git pull
