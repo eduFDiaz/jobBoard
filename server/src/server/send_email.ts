@@ -1,6 +1,9 @@
 import nodemailer from 'nodemailer'; // Import the nodemailer module
 import dotenv from 'dotenv'; // Import the dotenv module
 
+import createLogger from '../config/logger';
+const logger = createLogger(__filename);
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -34,7 +37,7 @@ export function sendEmail(
     if (error) {
       return console.error(error);
     }
-    console.log('Message sent: %s', info.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    logger.info(`Message sent: ${info.messageId}`);
+    logger.info(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
   });
 }

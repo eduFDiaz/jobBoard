@@ -6,11 +6,13 @@ import { generateRandomPassword } from './ids';
 import { sendEmail } from '../server/send_email';
 import { User } from '../interfaces/CreateJobParams';
 
+import createLogger from '../config/logger';
+const logger = createLogger(__filename);
+
 const getUserTable = () => connection.table('user');
 
 function generateWelcomeEmail(user: User, company: Company) {
-  
-  console.log('Sending welcome email to', user.email);
+  logger.info(`Sending welcome email to ${user.email}`);
 
   const subject = 'Welcome to our job board platform!';
   const html = `
@@ -44,8 +46,8 @@ export async function createUser(email:string) {
   const newCompanyId = uuidv4();
 
   const companyRes:Company = await generateCompany();
-
-  console.log('companyRes', companyRes);
+  
+  logger.info(`companyRes ${companyRes}`);
 
   const company = {
     id: newCompanyId,
@@ -60,8 +62,8 @@ export async function createUser(email:string) {
     password: await generateRandomPassword(),
   };
 
-  console.log('company', company);
-  console.log('user', user);
+  logger.info(`company ${company}`);
+  logger.info(`user ${user}`);
 
   await connection.table('company').insert(company);
   await connection.table('user').insert(user);

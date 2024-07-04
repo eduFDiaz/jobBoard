@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request } from 'express';
 import cors from 'cors';
 
 import { ApolloServer } from '@apollo/server';
@@ -9,6 +10,9 @@ import { authMiddleware, handleLogin, handleGoogleLogin } from './server/auth';
 import { generateJobs } from './scripts/insert-50-jobs-chatgpt';
 import { resolvers } from './server/resolvers';
 import { createDb } from './scripts/create-db';
+
+import createLogger from './config/logger';
+const logger = createLogger(__filename);
 
 require('dotenv').config();
 
@@ -27,18 +31,17 @@ async function resolveSchema() {
   return typeDefs;
 }
 
-import { Request } from 'express';
-
 interface AuthRequest extends Request {
   auth?: any;
 }
 
 async function getContext({ req }: { req: AuthRequest }) {
-  console.log('req.auth', req.auth);
+  logger.info(`req.auth ${req.auth}`);
   return Promise.resolve({ auth: req.auth });
 }
 
 resolveSchema().then(async (tmpTypeDefs) => {
+  logger.info('Schema resolved');
   apolloServer = new ApolloServer({ typeDefs: tmpTypeDefs, resolvers });
   await apolloServer.start();
   app.use('/graphql', apolloMiddleware(apolloServer, { context: getContext }));
