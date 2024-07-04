@@ -1,4 +1,10 @@
 import knex, { Knex } from 'knex';
+import { environment }  from '../environment/environment';
+
+import createLogger from '../config/logger';
+const logger = createLogger(__filename);
+
+logger.info(`environment is ${JSON.stringify(environment)}`);
 
 // Define an enum for the source types
 export enum DataSource {
@@ -15,7 +21,7 @@ function generateConnection(source: ConnectionSource): Knex {
     return knex({
       client: 'better-sqlite3',
       connection: {
-        filename: './src/data/db.sqlite3',
+        filename: environment.filename,
       },
       useNullAsDefault: true,
     });

@@ -13,6 +13,9 @@ services:
   job-board-backend:
       build: ./server
       image: job-board-backend:latest
+      volumes:
+        - ./server/src/data/:/server/src/data/
+        - ./server/logs/:/server/logs/
       container_name: job-board-backend
       restart: always
       ports:
@@ -30,7 +33,6 @@ services:
         - JOB_BOARD_SECRET=${JOB_BOARD_SECRET}
         - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
         - OPENAI_API_KEY=${OPENAI_API_KEY}
-
 networks:
   job-board-network:
     driver: bridge

@@ -3,6 +3,9 @@ import CreateJobParams, { UpdateJobParams } from '../interfaces/CreateJobParams'
 import { connection } from './connection';
 import { generateId } from './ids';
 
+import createLogger from '../config/logger';
+const logger = createLogger(__filename);
+
 const getJobTable = () => connection.table('job');
 
 export async function countJobs() {
@@ -40,7 +43,7 @@ export async function createJob({ companyId, input: { title, description } }: Cr
     description,
     createdAt: new Date().toISOString(),
   };
-  console.log(job);
+  logger.info(`Creating job: ${JSON.stringify(job)}`);
   await getJobTable().insert(job);
   return job;
 }

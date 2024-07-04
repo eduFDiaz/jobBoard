@@ -5,10 +5,10 @@
   "description": "Boiler plate code for a joboard express.js GraphQL service with Typescript",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts",
+    "prod": "NODE_ENV=production ts-node src/index.ts",
+    "dev": "NODE_ENV=development nodemon src/index.ts",
     "build": "tsc",
-    "start:dist": "node dist/src/index.js",
+    "prod:dist": "node dist/src/index.js",
     "lint": "eslint --fix src test",
     "pretest": "rm -rf coverage",
     "test": "jest",
@@ -42,7 +42,8 @@
     "mssql": "^10.0.4",
     "nanoid": "^5.0.7",
     "nodemailer": "^6.9.14",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
