@@ -1,4 +1,4 @@
-Job board demo site. 
+Job board demo site. https://job-board.eduardofd.dev
 
 The site uses syntethic data for the job posts.
 
