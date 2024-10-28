@@ -1,16 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
 import { DataSource, source, ConnectionSource } from './connection';
+import { generate } from 'generate-password'; 
+import { ulid } from 'ulid';
 
 // Function to generate the connection
 async function generateUniqueId(dbSource: ConnectionSource): Promise<string> {
-  if (dbSource === DataSource.SQLITE) {
-    return uuidv4();
+  if (dbSource === DataSource.DYNAMODB) {
+    return ulid();
   }
-  if (dbSource === DataSource.MSSQL) {
-    return uuidv4();
-  }
-
-  // Throw an error if the source is not recognized
   throw new Error(`Unsupported source: ${dbSource}`);
 }
 
@@ -20,5 +16,12 @@ export const generateId = () => {
 };
 
 export const generateRandomPassword = async () => {
-  return uuidv4();
+  return generate({
+    length: 10,
+    numbers: true,
+    symbols: true,
+    uppercase: false,
+    excludeSimilarCharacters: true,
+    strict: true,
+  });
 };

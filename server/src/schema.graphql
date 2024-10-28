@@ -1,18 +1,48 @@
 type Query {
     job(id: ID!): Job
-    jobs(limit: Int, offset: Int): PaginatedJobs
+    jobs(limit: Int, startKey: ExclusiveStartKeyInput): PaginatedJobs
     company(id: ID!): Company
-    user(id: ID!): User
+    companies: [Company!]
+    searchCompany(name: String!): [Company!]
+    userById(id: ID!): User
+    userByEmail(email: ID!): User
 }
 
 type Mutation {
     createJob(input: createJobInput!): Job
     updateJob(id: ID!, input: createJobInput!): Job
     deleteJob(id: ID!): Job
+    createCompany(input: createCompanyInput): Company
 }
 
 input createJobInput {
     title: String!, description: String!
+}
+
+input createCompanyInput {
+    id: ID, name: String, description: String
+}
+
+"""
+This is a pointer to start key
+for the Job
+"""
+input ExclusiveStartKeyInput {
+    SK: String, 
+    PK: String, 
+    GSI1PK: String, 
+    GSI1SK: String
+}
+
+"""
+This is a pointer to the last 
+evaluated and returned job
+"""
+type LastEvaluatedKey {
+    SK: String, 
+    PK: String, 
+    GSI1PK: String, 
+    GSI1SK: String
 }
 
 """
@@ -27,9 +57,15 @@ type Job {
     company: Company!
 }
 
+"""
+This will return a list of jobs, a counter
+and the last key evaluated that will be used
+for the infinity scrolling
+"""
 type PaginatedJobs {
     jobs: [Job!]
-    totalCount: Int!
+    count: Int
+    lastKey: LastEvaluatedKey
 }
 
 type Company {
@@ -43,6 +79,7 @@ type User {
     id: ID!
     email: String!
     name: String!
-    company: Company!
+    companyId: String!
     jobs: [Job!]
+    company: Company
 }

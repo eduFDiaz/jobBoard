@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NavbarComponent } from "./navbar/navbar.component";
 
 @Component({
@@ -7,7 +7,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    imports: [CommonModule, NavbarComponent]
+    imports: [CommonModule, NavbarComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {
 }

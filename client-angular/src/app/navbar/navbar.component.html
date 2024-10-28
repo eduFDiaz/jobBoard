@@ -2,13 +2,19 @@
     <div class="navbar-start">
         <a routerLink="" class="navbar-item">Home</a>
     </div>
-    @if (authService.loggedIn()) {
+    @if (cognitoAuthService.loggedIn()) {
     <div class="navbar-end">
         <span class="navbar-item has-text-grey">
-            {{authService.user().email}}
+            {{cognitoAuthService.user().fullName}}
+        </span>
+        <span class="navbar-item has-text-grey">
+            {{cognitoAuthService.user().email}}
         </span>
         <a routerLink="jobs/new" class="navbar-item">
             Post Job
+        </a>
+        <a routerLink="profile" class="navbar-item">
+            Profile
         </a>
         <a class="navbar-item" (click)="handleLogout()">
             Logout

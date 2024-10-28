@@ -9,3 +9,9 @@ input{
         background-color: black;
     }
 }
+
+.scrollable-div {
+    height: 80vh;
+    overflow-y: scroll;
+    // border: 1px solid #000; /* Optional border to make it visible */
+}

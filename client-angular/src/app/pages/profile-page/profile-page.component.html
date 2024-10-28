@@ -1,0 +1,88 @@
+@if (error) {
+<div class="notification is-danger">
+    {{ error }}
+</div>
+}
+
+
+
+<div class="container ml-5 mt-5">
+    <h2 class="subtitle">Associate your user to an existing company or create a new one</h2>
+    <h4 class="mb-4">Current company is <span class="has-text-weight-bold">{{authService.user().company.name}}</span></h4>
+    <div class="tabs is-boxed">
+        <ul>
+            <li [ngClass]="{'is-active': activeTab === 'tab1'}">
+                <a (click)="selectTab('tab1')">Select existing company</a>
+            </li>
+            <li [ngClass]="{'is-active': activeTab === 'tab2'}">
+                <a (click)="selectTab('tab2')">Add new company</a>
+            </li>
+        </ul>
+    </div>
+
+    <form [formGroup]="createCompanyForm" (ngSubmit)="onSubmitForm()">
+        @if (activeTab === 'tab1') {
+        <h2>Select your company from the Company dropdown below or search </h2>
+        <div class="field is-horizontal">
+            <div class="field">
+                <label class="label">Search Company</label>
+                <div class="control">
+                    <input class="input" type="text" formControlName="searchQuery" (input)="onSearchCompany()"
+                        placeholder="company name">
+                </div> 
+            </div>
+            @if ( companies.length > 0) {
+                <div class="field ml-3">
+                    <label class="label">Company</label>
+                    <div class="control">
+                        <div class="select">
+                            <select formControlName="selectedCompany" (change)="onSelectedCompany($event)">
+                                @for (item of companies; track $index) {
+                                    <option [value]="item.id">{{ item.name }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-link" type="submit"
+                    [disabled]="!createCompanyForm.get('selectedCompany')?.value">
+                    Submit
+                </button>
+            </div>
+        </div>
+        }
+
+        @if (activeTab === 'tab2') {
+        <h2 class="mb-2">Create a new company and assign it to current user</h2>
+        <div class="box">
+            <div class="field">
+                <label class="label">
+                    Company Name
+                </label>
+                <div class="control">
+                    <input class="input" type="text" formControlName="companyName" required />
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">
+                    Company Description
+                </label>
+                <quill-editor placeholder="Enter company description" formControlName="companyDescription"
+                    [modules]="quillConfig" [required]="true"></quill-editor>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" type="submit" [disabled]="!createCompanyForm.valid || loading">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </form>
+</div>

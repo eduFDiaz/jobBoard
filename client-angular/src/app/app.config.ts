@@ -4,8 +4,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { graphqlProvider } from './graphql.provider';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient(), provideHttpClient(), graphqlProvider],
+  providers: [provideRouter(routes), provideHttpClient(), provideHttpClient(), graphqlProvider, { provide: BrowserAnimationsModule, useValue: BrowserAnimationsModule }],
 };

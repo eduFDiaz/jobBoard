@@ -6,9 +6,14 @@
 }
 
 @if (loading) {
-    <div>Loading...</div>;
+  <ngx-spinner
+  [fullScreen]="false"
+  type="ball-scale-multiple"
+  size="medium">
+    <p class="loading">Loading ...</p>
+  </ngx-spinner>
 } @else {
-    <div class="section">
+    <div [ngClass]="{'section': isJobsByIdPage, 'ml-5 mr-5' : isJobsByIdPage === false} ">
         <h1 class="title is-3">
           {{job.title}}
         </h1>
@@ -17,20 +22,24 @@
             {{job.company.name}}
           </a>
         </h2>
-        <div class="box">
-          <div class="block has-text-grey">
+        <div class="">
+          <div class="has-text-grey">
             Posted: {{job.date | date: 'MMMM dd, yyyy'}}
           </div>
           <div class="content" [innerHTML]="job.description">
           </div>
         </div>
-        @if (authService.loggedIn() && authService.user().companyId === job.company.id) {
-          <div class="buttons">
-            <button class="button is-danger" (click)="deleteJob()">
-              Delete job
-            </button>
+        <!-- leave here for debugging purposes
+        job.company.id {{ job.company.id }} <br>
+        authService.user().companyId {{ authService.user().companyId }} <br>
+        authService.loggedIn() {{ authService.loggedIn() }} <br> -->
+        @if (authService.loggedIn() && authService.user().companyId === job.company.id && loading === false) {
+          <div class="mt-4 buttons">
             <button class="button is-primary" [routerLink]="['/jobs', job.id, 'edit']">
               Edit job
+            </button>
+            <button class="button is-danger" (click)="deleteJob()">
+              Delete job
             </button>
           </div>
         }
