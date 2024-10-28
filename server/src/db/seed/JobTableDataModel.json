@@ -1,0 +1,27 @@
+{
+  "ModelName": "Job Table Data Model",
+  "ModelMetadata": {
+    "Author": "Eduardo A Fernandez Diaz.",
+    "DateCreated": "Sep 30, 2024, 11:50 AM",
+    "DateLastModified": "Sep 30, 2024, 11:50 AM",
+    "Description": "This data model represents an Amazon DynamoDB schema for job portal database application.\n\nThe important access patterns facilitated by this data model are:\n* Retrieval of all jobs, user by ID, company by ID, jobs by user, jobs by company\n*",
+    "Version": "1.0",
+    "AWSService": "Amazon DynamoDB"
+  },
+  "DataModel": [
+    { 
+      "TableName" : "JobBoardTable",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        
+      ]
+  
+    }
+
+  ]
+}

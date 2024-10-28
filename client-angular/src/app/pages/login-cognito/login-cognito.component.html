@@ -1,0 +1,16 @@
+<amplify-authenticator 
+  [loginMechanisms]="['email',]" 
+  [signUpAttributes]="['name','email','phone_number']"
+  [formFields]="formFields"
+  > 
+  <ng-template
+    amplifySlot="authenticated"
+    let-user="user"
+    let-attributes="attributes"
+    let-signOut="signOut"
+  >
+    <h1>Welcome {{ authCognitoService.user() | json }}!</h1>
+    
+    <button (click)="signOut()">Sign Out</button>
+  </ng-template>
+</amplify-authenticator>

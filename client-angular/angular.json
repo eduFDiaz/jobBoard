@@ -20,6 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": ["quill"],
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -35,7 +36,9 @@
             "styles": [
               "src/styles.scss",
               "node_modules/bulma/css/bulma.css",
-              "node_modules/quill/dist/quill.snow.css"
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/@aws-amplify/ui-angular/theme.css",
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css"
             ],
             "scripts": []
           },
@@ -52,7 +55,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1.5mb"
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

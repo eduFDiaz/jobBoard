@@ -1,7 +1,7 @@
 import { Injectable, effect } from '@angular/core';
 import { ApolloLink, createHttpLink, concat } from '@apollo/client/core';
 import { Apollo, gql } from 'apollo-angular';
-import { AuthService } from './auth.service';
+import { AuthCognitoService } from './auth.cognito.service';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../../environments/environment';
 
@@ -45,20 +45,46 @@ const companyByIdQuery = gql`
     `;
 
 const getJobsQuery = gql`    
-query Jobs($limit: Int, $offset: Int) {
-  jobs(limit: $limit, offset: $offset) {
+query Jobs($limit: Int, $startKey: ExclusiveStartKeyInput) {
+  jobs(limit: $limit, startKey: $startKey) {
     jobs {
       id
-        date
-        title
-        company {
-          id
-          name
-        }
-    },
-    totalCount
+      title
+      date
+      company {
+        id
+        name
+      }
+    }
+    lastKey {
+      PK
+      SK
+      GSI1PK
+      GSI1SK
+    }
+    count
   }
 }
+`;
+
+const getCompaniesQuery = gql`
+  query Companies {
+    companies {
+      name
+      description
+      id
+    }
+  }
+`;
+
+const getCompaniesByNameQuery = gql`
+  query Companies($name: String!) {
+    searchCompany(name: $name) {
+      id
+      name
+      description
+    }
+  }
 `;
 
 @Injectable({
@@ -67,12 +93,11 @@ query Jobs($limit: Int, $offset: Int) {
 export class ApolloService {
 
   constructor(private apollo: Apollo,
-              private authService: AuthService,
-              private httpLink: HttpLink) {
+              private authService: AuthCognitoService) {
 
                 effect(() => {
-                  console.log('[ApolloService]',this.authService.token());
-                  this.configureApollo(this.authService.token());
+                  console.log('[ApolloService]',this.authService.accessToken());
+                  this.configureApollo(this.authService.accessToken());
                 });
   }
 
@@ -85,7 +110,7 @@ export class ApolloService {
       // Use the setContext method to set the HTTP headers.
       if (token) {
         operation.setContext({
-            headers: { authorization: `Bearer ${token}` }
+            headers: { authorization: `${token}` }
         });
       }
       return forward(operation);
@@ -97,8 +122,8 @@ export class ApolloService {
   }     
     
 
-  public async getJobs(limit:number, offset:number) {
-    let response = await this.apollo.watchQuery({ query: getJobsQuery , variables: {limit, offset}, fetchPolicy: 'network-only'}).result();
+  public async getJobs(limit:number, startKey: any) {
+    let response = await this.apollo.watchQuery({ query: getJobsQuery , variables: {limit, startKey}, fetchPolicy: 'network-only'}).result();
     return response;
   }
 
@@ -110,6 +135,49 @@ export class ApolloService {
   public async getCompanyById(id:string) {
     let response = await this.apollo.watchQuery({ query: companyByIdQuery, variables: { id } }).result()
     return response;
+  }
+
+  public async getCompanies() {
+    let response = await this.apollo.watchQuery({ query: getCompaniesQuery }).result()
+    return response;
+  }
+
+  public async searchCompanies(name:string) {
+    let response = await this.apollo.watchQuery({ query: getCompaniesByNameQuery, variables: { name } }).result()
+    return response;
+  }
+
+  public async createCompany(input:any) {
+    const mutation = gql`
+    mutation CreateCompany($input: createCompanyInput!) {
+        company: createCompany(input: $input) {
+            id
+            name
+            description
+        }
+    }
+    `;
+
+    const response = await this.apollo.client.mutate({
+        mutation, 
+        variables: { input }
+    });
+    return response;
+  }
+
+  public getUserById(id:string) {
+    const query = gql`
+    query UserById($id: ID!) {
+      userById(id: $id) {
+        id
+        email
+        name
+        companyId
+      }
+    }
+    `;
+
+    return this.apollo.watchQuery({ query, variables: { id } }).result();
   }
 
   public async updateJob(id:string, input:any) {

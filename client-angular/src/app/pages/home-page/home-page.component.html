@@ -4,20 +4,27 @@
 </div>
 }
 
-@if (loading) {
-<div>Loading...</div>;
-} @else {
-<div class="section">
+<div class="container">
     <h1 class="title">
-        Job Board
+        Available Jobs
     </h1>
-    <app-job-list [jobs]="jobs" [totalCount]="totalCount"/>
 
-    <!-- pagination -->
-    <div class="pagination is-centered" *ngIf="totalCount > 0" style="height: 200px; width: 250px;">
-        @for (page of pageRange; track $index) {
-            <input [ngClass]="{'button active': currentPage === page, 'button inactive' : currentPage !== page }" type="button" value="{{page}}" (click)="loadJobs(page)">   
-        }
+    <div class="columns" infiniteScroll [infiniteScrollContainer]="'.scrollable-div'" [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+        <div class="column is-two-fifths scrollable-div">
+            <app-job-list [jobs]="jobs" [totalCount]="totalCount" (onSelectedJob)="onJobSelected($event)"/>
+            @if (loading) {
+                <div class="notification is-info is-loading mt-4" >
+                    Loading...
+                </div>
+            }
+            @if (finished) {
+                <div class="notification is-warning mt-4" >
+                    End of the database... There are no more jobs available folks!
+                </div>
+                }
+        </div>
+        <div class="column scrollable-div">
+            <app-job-page [job]="selectedJob"/>
+        </div>
     </div>
 </div>
-}

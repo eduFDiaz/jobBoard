@@ -1,12 +1,29 @@
-<ul class="box">
+<ul>
     @for (job of jobs; track job.id) {
-        <li class="media">
-            <div class="media-left has-text-grey">
-              {{ job.date | date: 'MMMM dd, yyyy'}}
-            </div>
+    <li class="media" [ngClass]="{'has-background-info-light': job.id === selectedJobId}" (click)="selectJob(job.id)"
+        style="margin-top: 0px; margin-bottom: 0px;">
+        <div>
             <div class="media-content">
-                <a [routerLink]="['/jobs', job.id]">{{getTitle(job)}}</a>
+                <p class="title">
+                    <strong>{{job.title}}</strong>
+                </p>
+                <p class="subtitle">
+                    Posted on {{job.date | date: 'MMMM dd, yyyy'}}
+                </p>
             </div>
-        </li>    
+            <div>
+                <p class="has-text-grey">
+                    {{job.company?.name}}
+                </p>
+            </div>
+            @if (isCompanyPage) {
+            <div class="buttons">
+                <button class="button is-primary" [routerLink]="['/jobs', job.id]">
+                    See details
+                </button>
+            </div>
+            }
+        </div>
+    </li>
     }
 </ul>

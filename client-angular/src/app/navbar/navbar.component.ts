@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+
 import { TourService } from '../services/tour-service.service';
+import { AuthCognitoService } from '../services/auth.cognito.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,16 +12,22 @@ import { TourService } from '../services/tour-service.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
 
-  constructor(public authService:AuthService, public tourService: TourService, private router: Router) {}
+  constructor(public cognitoAuthService:AuthCognitoService, public tourService: TourService, private router: Router) {}
+  ngAfterViewInit(): void {
+    console.log(`[navbar] ngAfterViewInit() isLoggedIn: ${JSON.stringify(this.cognitoAuthService.loggedIn(), null, 2)}`);
+    console.log(`[navbar] ngAfterViewInit() user: ${JSON.stringify(this.cognitoAuthService.user(), null, 2)}`);
+  }
   ngOnInit(): void {
-    this.authService.getUser();
+    console.log(`[navbar] ngOnInit() isLoggedIn: ${JSON.stringify(this.cognitoAuthService.loggedIn(), null, 2)}`);
+    console.log(`[navbar] ngOnInit() user: ${JSON.stringify(this.cognitoAuthService.user(), null, 2)}`);
+    this.cognitoAuthService.refreshSignals();
   };
 
   handleLogout() {
     console.log('[navbar] Logging out');
-    this.authService.logout();
+    this.cognitoAuthService.signOut();
     this.router.navigate(['/']);
   }
 
