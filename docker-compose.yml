@@ -33,6 +33,8 @@ services:
         - JOB_BOARD_SECRET=${JOB_BOARD_SECRET}
         - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
         - OPENAI_API_KEY=${OPENAI_API_KEY}
+        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 networks:
   job-board-network:
     driver: bridge
